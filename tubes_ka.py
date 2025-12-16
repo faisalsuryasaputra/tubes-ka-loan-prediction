@@ -9,8 +9,8 @@ Original file is located at
 # Kelompok 6
 Nama anggota:
 - Faisal Surya Saputra (103012330152)
-- Yudis Akbar
-- Caesar Gian
+- Yudis Akbar (103012..)
+- Caesar Gian (103012..)
 
 Sumber dataset yang diambil https://www.kaggle.com/datasets/faisalwp/dataset-klasifikasi-status-pinjaman/data
 
