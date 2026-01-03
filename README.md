@@ -65,7 +65,7 @@ Model Decision Tree dipilih sebagai model terbaik karena memberikan keseimbangan
 
 1.  Clone repositori ini:
     ```bash
-    git clone [https://github.com/username-kamu/klasifikasi-status-pinjaman.git](https://github.com/username-kamu/klasifikasi-status-pinjaman.git)
+    git clone [https://github.com/faisalsuryasaputra/klasifikasi-status-pinjaman.git]
     ```
 2.  Install library yang dibutuhkan:
     ```bash
