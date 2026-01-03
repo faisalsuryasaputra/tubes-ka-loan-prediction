@@ -57,14 +57,6 @@ The **Decision Tree** was selected as the final model because it offered the opt
 * **True Positive:** Successfully detected the majority of default cases.
 * **False Negative (Bank Risk):** Very minimal (~233 cases out of the total test set), significantly reducing the risk of granting loans to defaulters.
 
-## 📈 Project Visualization
-*(Placeholders for your notebook screenshots)*
-
-* ![Distribution after Log Transformation](path/to/your/image1.png)
-  *Fig 1. Data Distribution after Log Transformation*
-* ![Confusion Matrix](path/to/your/image2.png)
-  *Fig 2. Confusion Matrix of the Best Model*
-
 ## 💻 Installation & Usage
 
 1.  **Clone the repository:**
