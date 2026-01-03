@@ -1,82 +1,88 @@
-# TUBES-KA-klasifikasi-status-pinjaman
+# 💰 Loan Status Classification (Credit Risk Prediction)
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Scikit-Learn](https://img.shields.io/badge/Library-Scikit--Learn-orange)
-![Pandas](https://img.shields.io/badge/Library-Pandas-150458)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Library-Scikit_Learn-orange?logo=scikit-learn&logoColor=white)
+![Pandas](https://img.shields.io/badge/Library-Pandas-150458?logo=pandas&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
-> **Projek Machine Learning untuk memprediksi risiko gagal bayar (default) pada pengajuan pinjaman nasabah.**
+> **A Machine Learning project to predict credit default risk based on applicant financial profiles.**
 
-## 📌 Latar Belakang
-Lembaga keuangan menghadapi risiko kerugian finansial akibat nasabah yang gagal bayar (*default*). Proyek ini bertujuan membangun sistem cerdas yang dapat mengklasifikasikan apakah seorang nasabah layak menerima pinjaman (Lancar) atau berisiko macet (Gagal Bayar) berdasarkan profil demografis dan finansial mereka.
+## 📌 Background
+Financial institutions face significant risks of financial loss due to customers failing to repay loans (default). This project aims to build an intelligent system capable of classifying whether a customer is eligible for a loan (**Non-Default/Safe**) or poses a risk (**Default**) based on their demographic and financial history.
 
 ## 📂 Dataset
-Dataset yang digunakan berasal dari Kaggle: **[Dataset Klasifikasi Status Pinjaman](https://www.kaggle.com/datasets/faisalwp/dataset-klasifikasi-status-pinjaman/data)**.
+The dataset used in this project is sourced from Kaggle: **[Dataset Klasifikasi Status Pinjaman](https://www.kaggle.com/datasets/faisalwp/dataset-klasifikasi-status-pinjaman/data)**.
 
-* **Total Data:** ~50,000 baris.
-* **Target Variable:** `status_pinjaman` (0: Lancar, 1: Kredit Macet/Default).
-* **Fitur Utama:** Usia, Pendapatan Tahunan, Skor Kredit, Total Hutang, Lama Riwayat Kredit, dll.
+* **Total Records:** ~50,000 rows.
+* **Target Variable:** `status_pinjaman` (0: Non-Default, 1: Default).
+* **Key Features:** Age, Annual Income, Credit Score, Total Debt, Credit History Length, etc.
 
-## 🛠️ Metodologi & Preprocessing
+## 🛠️ Methodology & Preprocessing
 
-Proyek ini mencakup pipeline *end-to-end* data science:
+This project implements an end-to-end data science pipeline:
 
 1.  **Data Cleaning:**
-    * Menghapus kolom `id_pelanggan` (irrelevant).
-    * Handling Missing Values (drop rows karena jumlah missing value < 5%).
-    * Label Encoding untuk fitur kategorikal (`status_pekerjaan`, `tipe_produk`, `tujuan_pinjaman`).
-2.  **Handling Skewed Data (Penting):**
-    * Mengidentifikasi distribusi miring pada fitur numerik (seperti `pendapatan_tahunan`, `aset_tabungan`).
-    * Melakukan transformasi logaritma (`np.log1p`) untuk menormalkan distribusi data agar optimal bagi algoritma *linear* dan *distance-based*.
+    * Removed the `id_pelanggan` column (irrelevant unique identifier).
+    * **Handling Missing Values:** Dropped rows containing nulls (percentage was < 5%).
+    * **Label Encoding:** Applied to categorical features such as `status_pekerjaan` (Job Status), `tipe_produk` (Product Type), and `tujuan_pinjaman` (Loan Purpose).
+
+2.  **Handling Skewed Data (Crucial Step):**
+    * Identified highly skewed distributions in numerical features (e.g., `pendapatan_tahunan`, `aset_tabungan`).
+    * Applied **Log Transformation (`np.log1p`)** to normalize the data distribution, optimizing it for linear and distance-based algorithms.
+
 3.  **Data Splitting:**
-    * Rasio: **80% Train : 10% Validation : 10% Test**.
-    * Menggunakan `stratify` untuk menjaga keseimbangan rasio target.
+    * **Ratio:** 80% Train : 10% Validation : 10% Test.
+    * **Stratification:** Used `stratify=y` to maintain the ratio of the target classes across all splits.
 
-## 🤖 Pemodelan (Modeling)
+## 🤖 Modeling
 
-Tiga algoritma Machine Learning diuji dan dievaluasi kinerjanya:
+Three Machine Learning algorithms were trained and evaluated:
 
-1.  **Naive Bayes (GaussianNB)** - Sebagai baseline.
-2.  **K-Nearest Neighbors (KNN)** - Dioptimasi menggunakan `GridSearchCV` (mencari *k* dan *metric* terbaik).
-3.  **Decision Tree** - Dioptimasi menggunakan `GridSearchCV` (tuning `max_depth`, `criterion`, dll).
+1.  **Naive Bayes (GaussianNB)** - Used as the baseline model.
+2.  **K-Nearest Neighbors (KNN)** - Optimized using `GridSearchCV` to find the best *k* and distance metric.
+3.  **Decision Tree** - Optimized using `GridSearchCV` (tuning `max_depth`, `criterion`, etc.).
 
-## 📊 Hasil Evaluasi
+## 📊 Evaluation Results
 
-Evaluasi dilakukan menggunakan data Test (unseen data). Berikut perbandingan performanya:
+The models were evaluated using the **Test Set** (unseen data). The performance comparison is as follows:
 
-| Model | Akurasi | Precision | Recall | Keterangan |
+| Model | Accuracy | Precision | Recall | Observation |
 | :--- | :--- | :--- | :--- | :--- |
-| **Naive Bayes** | 72.07% | 66.65% | **98.61%** | Recall sangat tinggi, namun banyak False Positive. |
-| **KNN (Tuned)** | 78.69% | 76.61% | 88.23% | Performa moderat/seimbang. |
+| **Naive Bayes** | 72.07% | 66.65% | **98.61%** | Very high Recall, but suffers from high False Positives. |
+| **KNN (Tuned)** | 78.69% | 76.61% | 88.23% | Moderate and balanced performance. |
 | **Decision Tree (Tuned)** | **88.29%** | **87.76%** | **91.48%** | **🏆 Best Model** |
 
-### Analisis Confusion Matrix (Decision Tree)
-Model Decision Tree dipilih sebagai model terbaik karena memberikan keseimbangan optimal antara Akurasi dan Recall.
-* **True Positive:** Berhasil mendeteksi mayoritas kredit macet.
-* **False Negative (Risiko Bank):** Sangat minim (~233 kasus dari total test set).
+### Confusion Matrix Analysis (Decision Tree)
+The **Decision Tree** was selected as the final model because it offered the optimal balance between Accuracy and Recall.
+* **True Positive:** Successfully detected the majority of default cases.
+* **False Negative (Bank Risk):** Very minimal (~233 cases out of the total test set), significantly reducing the risk of granting loans to defaulters.
 
-## 📈 Visualisasi Project
-*(Disarankan untuk menaruh screenshot grafik dari notebook di sini, misalnya:)*
-* [Image: Distribusi Data setelah Log Transformation]
-* [Image: Confusion Matrix Decision Tree]
-* [Image: Decision Tree Rules Visualization]
+## 📈 Project Visualization
+*(Placeholders for your notebook screenshots)*
 
-## 💻 Cara Menjalankan (Installation)
+* ![Distribution after Log Transformation](path/to/your/image1.png)
+  *Fig 1. Data Distribution after Log Transformation*
+* ![Confusion Matrix](path/to/your/image2.png)
+  *Fig 2. Confusion Matrix of the Best Model*
 
-1.  Clone repositori ini:
+## 💻 Installation & Usage
+
+1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/faisalsuryasaputra/klasifikasi-status-pinjaman.git]
+    git clone [https://github.com/faisalsuryasaputra/klasifikasi-status-pinjaman.git](https://github.com/faisalsuryasaputra/klasifikasi-status-pinjaman.git)
+    cd klasifikasi-status-pinjaman
     ```
-2.  Install library yang dibutuhkan:
+
+2.  **Install dependencies:**
     ```bash
     pip install pandas numpy scikit-learn matplotlib seaborn kagglehub
     ```
-3.  Jalankan notebook:
-    Buka `notebook.ipynb` (atau nama file kamu) menggunakan Jupyter Notebook atau Google Colab.
 
-## 👥 Kredit
-Project ini dikerjakan oleh:
-* **Faisal** - *Data Preprocessing, Modeling, & Evaluation.*
+3.  **Run the Notebook:**
+    Open `notebook.ipynb` (or your specific filename) using Jupyter Notebook, VS Code, or Google Colab.
+
+## 👥 Credits
+* **Faisal Surya Saputra** - *End-to-End Analysis (Preprocessing, Modeling, & Evaluation)*
 
 ---
-*Dibuat untuk memenuhi Tugas Besar Mata Kuliah Kecerdasan Buatan/Machine Learning.*
+*Created as a Final Project for the Artificial Intelligence / Machine Learning Course.*
